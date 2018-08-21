@@ -1,0 +1,46 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-4.3.xsd 
+   http://www.springframework.org/schema/aop 
+   http://www.springframework.org/schema/aop/spring-aop-4.3.xsd ">
+
+	<aop:aspectj-autoproxy />
+
+	<aop:config>
+		<aop:aspect id="aspectByXml" ref="aspectByXml">
+
+			<aop:pointcut id="beforeSettingDetails"
+				expression="execution(* com.springtutorial.Employee.setName(..))" />
+
+			<aop:pointcut id="afterSettingDetails"
+				expression="execution(* com.springtutorial.Employee.setDateOfJoining(..))" />
+
+			<aop:pointcut id="allMethods"
+				expression="execution(* com.springtutorial.Employee.*(..))" />
+
+			<aop:before pointcut-ref="beforeSettingDetails"
+				method="before" />
+
+			<aop:after pointcut-ref="afterSettingDetails"
+				method="after" />
+
+			<aop:after-throwing pointcut-ref="allMethods"
+				throwing="ex" method="inCaseOfException" />
+
+		</aop:aspect>
+	</aop:config>
+
+	<bean id="employee" class="com.springtutorial.Employee" />
+
+	<bean id="aspectByXml" class="com.springtutorial.AspectByXml" />
+
+	<bean id="employeeService"
+		class="com.springtutorial.EmployeeService" />
+
+	<bean id="aspectByAnnotation"
+		class="com.springtutorial.AspectByAnnotation" />
+
+</beans>
